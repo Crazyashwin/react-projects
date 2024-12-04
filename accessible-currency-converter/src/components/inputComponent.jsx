@@ -1,70 +1,49 @@
-import React, { useId } from 'react';
+import React, {useId} from 'react'
 
 function InputBox({
-    ref,
     label,
     amount,
     onAmountChange,
     onCurrencyChange,
     currencyOptions = [],
-    selectCurrency = "USD",
+    selectCurrency = "usd",
     amountDisable = false,
+    currencyDisable = false,
+    className = "",
 }) {
-    const id = useId();
+   const amountInputId = useId()
 
     return (
-        <div
-            className="space-y-4 p-4 bg-gray-50 rounded-lg shadow-md"
-            role="group"
-            aria-labelledby={`${id}-label`}
-        >
-            {/* Amount Section */}
-            <div className="flex flex-col space-y-2">
-                <label
-                    htmlFor={id}
-                    id={`${id}-label`}
-                    className="text-sm font-medium text-gray-700"
-                >
+        <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
+            <div className="w-1/2">
+                <label htmlFor={amountInputId}  className="text-black/40 mb-2 inline-block">
                     {label}
                 </label>
                 <input
-                    id={id}
+                    id={amountInputId}
+                    className="outline-none w-full bg-transparent py-1.5"
                     type="number"
-                    placeholder="Enter amount"
+                    placeholder="enter Amount"
                     disabled={amountDisable}
                     value={amount}
                     onChange={(e) => onAmountChange && onAmountChange(Number(e.target.value))}
-                    aria-label="Amount"
-                    aria-required="true"
-                    aria-disabled={amountDisable}
-                    className={`w-full px-4 py-2 text-sm border rounded-md ${
-                        amountDisable
-                            ? 'bg-gray-200 text-gray-500'
-                            : 'bg-white border-gray-300 focus:ring-blue-500 focus:border-blue-500'
-                    }`}
                 />
             </div>
-
-            {/* Currency Section */}
-            <div className="flex flex-col space-y-2">
-                <p
-                    id={`${id}-currency-label`}
-                    className="text-sm font-medium text-gray-700"
-                >
-                    Currency Type
-                </p>
+            <div className="w-1/2 flex flex-wrap justify-end text-right">
+                <p className="text-black/40 mb-2 w-full">Currency Type</p>
                 <select
+                    className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
                     value={selectCurrency}
                     onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
-                    aria-live="polite"
-                    aria-labelledby={`${id}-currency-label`}
-                    className="w-full px-4 py-2 text-sm border bg-white border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    disabled={currencyDisable}
                 >
-                    {currencyOptions.map((currency) => (
-                        <option key={currency} value={currency}>
+                    
+                        {currencyOptions.map((currency) => (
+                            <option key={currency} value={currency}>
                             {currency}
-                        </option>
-                    ))}
+                            </option>
+                        ))}
+                
                 </select>
             </div>
         </div>
